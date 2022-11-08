@@ -26,7 +26,7 @@ module.exports = {
       {
         firstName: 'Imam',
         lastName: 'Taufiq',
-        email: 'imamtaufi@gmail.com',
+        email: 'imamtaufiq@gmail.com',
         password: bcrypt.hashSync('secret', 10),
         gender: 'male'
       },
