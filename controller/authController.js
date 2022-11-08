@@ -24,8 +24,6 @@ async function login(req, res) {
       }
     })
     
-    console.log(user.password)
-
     // check if user not found
     if (!user) return res.status(404).json({ message: 'user not found' })
 
@@ -45,10 +43,9 @@ async function register(req, res) {
   try {
     const user = await User.create(req.body)
 
-    console.log(user)
-
     const userWithToken = generateToken(user.get({ raw: true }))
     return res.send(userWithToken)
+    
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
