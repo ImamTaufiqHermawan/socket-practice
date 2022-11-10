@@ -106,3 +106,31 @@ exports.create = async (req, res) => {
     return res.status(500).json({ status: 'error', message: error.message })
   }
 }
+
+exports.messages = async (req, res) => {
+  const limit = 10
+  const page = req.query.page || 1
+  const offset = page > 1 ? page * limit : 0
+
+  const messages = await Message.findAndCountAll({
+    where: {
+      chatId: req.query.id
+    },
+    limit,
+    offset
+  })
+
+  const totalPages = Math.ceil(messages.count / limit)
+
+  if (page > totalPages) return res.json({ data: { message: [] } })
+
+  const result = {
+    messages: messages.rows,
+    pagination: {
+      page,
+      totalPages
+    }
+  }
+
+  return res.json(result)
+}
