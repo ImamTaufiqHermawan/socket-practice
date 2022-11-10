@@ -8,7 +8,7 @@ const generateToken = (user) => {
 
   const token = jwt.sign(user, config.appKey, { expiresIn: 86400 })
 
-  return { ...user, ...{ token } }
+  return { ...{ user }, ...{ token } }
 }
 
 async function login(req, res) {
@@ -17,13 +17,13 @@ async function login(req, res) {
   try {
 
     // const secret = require('crypto').randomBytes(64).toString('hex')
-    
+
     const user = await User.findOne({
       where: {
         email
       }
     })
-    
+
     // check if user not found
     if (!user) return res.status(404).json({ message: 'user not found' })
 
@@ -32,7 +32,7 @@ async function login(req, res) {
 
     // generate auth token
     const userWithToken = generateToken(user.get({ raw: true }))
-    userWithToken.avatar = user.avatar
+    userWithToken.user.avatar = user.avatar
     return res.send(userWithToken)
 
   } catch (error) {
@@ -46,7 +46,7 @@ async function register(req, res) {
 
     const userWithToken = generateToken(user.get({ raw: true }))
     return res.send(userWithToken)
-    
+
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
