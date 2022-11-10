@@ -3,8 +3,6 @@ const fs = require('fs')
 const path = require('path')
 
 exports.userFile = ((req, res, next) => {
-  console.log(req.body)
-
   const getFileType = (file) => {
     const mimeType = file.mimeType.split('/')
     return mimeType[mimeType.length - 1]

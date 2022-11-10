@@ -12,7 +12,10 @@ const generateToken = (user) => {
 }
 
 async function login(req, res) {
+  console.log(req.body)
   const { email, password } = req.body
+
+  console.log(req.body)
 
   try {
 
