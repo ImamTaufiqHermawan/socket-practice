@@ -29,11 +29,13 @@ const SocketServer = (server) => {
 
       const onlineFriends = [] //ids
 
-      const chatters = [] //query 
+      const chatters = getChatters(user.id) //query 
+
+      console.log(chatters)
 
       // notify his friends that user is now online
       for (let i = 0; i < chatters.length; i++) {
-        if (users.has(chatters[i].id)) {
+        if (users.has(chatters[i])) {
           const chatter = users.get(chatters[i])
           chatter.sockets.forEach(socket => {
             try {
@@ -51,7 +53,7 @@ const SocketServer = (server) => {
         } catch (error) { }
       })
 
-      io.to(socket.id).emit('typing', 'User typing...')
+      // io.to(socket.id).emit('typing', 'User typing...')
     })
 
     socket.on('disconnect', async () => {
@@ -80,11 +82,12 @@ const SocketServer = (server) => {
                     io.to(socket).emit('offline', user)
                   } catch (error) { }
                 })
+                onlineFriends.push(chatter.id)
               }
             }
 
             userSockets.delete(socket.id)
-            user.delete(user.id)
+            users.delete(user.id)
           }
         })
       })
