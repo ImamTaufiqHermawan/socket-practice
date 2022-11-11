@@ -21,6 +21,11 @@ exports.index = async (req, res) => {
           },
           {
             model: Message,
+            include: [
+              {
+                model: User
+              }
+            ],
             limit: 20,
             order: [['id', 'DESC']]
           }
@@ -28,6 +33,8 @@ exports.index = async (req, res) => {
       }
     ]
   })
+
+  // console.log(user.Chats)
 
   return res.send(user.Chats)
 }
@@ -116,6 +123,11 @@ exports.messages = async (req, res) => {
     where: {
       chatId: req.query.id
     },
+    include: [
+      {
+        model: User
+      }
+    ],
     limit,
     offset
   })
