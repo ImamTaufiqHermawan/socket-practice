@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         chatId: chat.id,
-        userId: users[0].id,        
+        userId: users[1].id,        
       }
     ])
 

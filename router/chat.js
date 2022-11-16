@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const { index, create, messages, deleteChat } = require('../controller/chatController')
+const { index, create, messages, deleteChat, imageUpload } = require('../controller/chatController')
 const { validate } = require('../validators')
 const { auth } = require('../middleware/auth')
+const {chatFile} = require('../middleware/fileUpload')
 
 router.get('/', [auth], index)
 router.get('/messages', [auth], messages)
-router.post('/chat', [auth], create)
+router.post('/create', [auth], create)
+router.post('/upload-image', [auth, chatFile], imageUpload)
 router.delete('/:id', [auth], deleteChat)
 
 module.exports = router

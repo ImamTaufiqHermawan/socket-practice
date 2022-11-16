@@ -1,5 +1,7 @@
 'use strict';
-const { config } = require('dotenv');
+
+const config = require('../config/app')
+
 const {
   Model
 } = require('sequelize');
@@ -11,18 +13,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here      
+      // define association here
       this.belongsTo(models.Chat, { foreignKey: 'chatId' })
       this.belongsTo(models.User, { foreignKey: 'fromUserId' })
     }
-  }
+  };
   Message.init({
     type: DataTypes.STRING,
     message: {
       type: DataTypes.TEXT,
       get() {
         const type = this.getDataValue('type')
-        const id = this.this.getDataValue('chatId')
+        const id = this.getDataValue('chatId')
         const content = this.getDataValue('message')
 
         return type === 'text' ? content : `${config.appUrl}:${config.appPort}/chat/${id}/${content}`

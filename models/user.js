@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsToMany(models.Chat, { through: 'ChatUser', foreignKey: 'userId' })
       this.hasMany(models.ChatUser, { foreignKey: 'userId' })
     }
-  }
+  };
   User.init({
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
     hooks: {
       beforeCreate: hashPassword,
-      beforeUpdate: hashPassword,
+      beforeUpdate: hashPassword
     }
   });
   return User;
