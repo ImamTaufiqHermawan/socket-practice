@@ -63,3 +63,27 @@ exports.userFile = ((req, res, next) => {
 
   return multer({ storage, fileFilter }).single('avatar')
 })()
+
+exports.chatFile = ((req, res, next) => {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      const { id } = req.body
+      const dest = `uploads/chat/${id}`
+
+      fs.access(dest, (error) => {
+
+        // if doens't exist
+        if (error) {
+          return fs.mkdir(dest, (error) => {
+            cb(error, dest)
+          })
+        } else {
+          return cb(null, dest)
+        }
+      })
+    },
+    filename: generateFileName
+  })
+
+  return multer({ storage, fileFilter }).single('image')
+})()
