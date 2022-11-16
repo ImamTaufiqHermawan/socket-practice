@@ -38,8 +38,7 @@ const SocketServer = (server) => {
           const chatter = users.get(chatters[i])
           chatter.sockets.forEach(socket => {
             try {
-              const onlineFriends = io.to(socket).emit('online', user)
-              console.log(onlineFriends)
+              io.to(socket).emit('online', user)
             } catch (error) { }
           })
           onlineFriends.push(chatter.id)
@@ -128,7 +127,7 @@ const SocketServer = (server) => {
         }
       })
     })
-
+    
   })
 }
 
