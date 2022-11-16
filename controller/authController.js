@@ -6,21 +6,16 @@ const config = require('../config/app')
 const generateToken = (user) => {
   // delete user.password
 
-  const token = jwt.sign(user, config.appKey, { expiresIn: "1d" })
+  const token = jwt.sign(user, config.appKey, { expiresIn: "60s" })
 
   return { ...{ user }, ...{ token } }
 }
 
 async function login(req, res) {
-  console.log(req.body)
   const { email, password } = req.body
 
-  console.log(req.body)
-
   try {
-
     // const secret = require('crypto').randomBytes(64).toString('hex')
-
     const user = await User.findOne({
       where: {
         email
