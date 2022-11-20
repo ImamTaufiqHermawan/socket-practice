@@ -87,30 +87,57 @@ exports.create = async (req, res) => {
 
     await t.commit()
 
-    const newChat = await Chat.findOne({
+    // const newChat = await Chat.findOne({
+    //   where: {
+    //     id: chat.id
+    //   },
+    //   include: [
+    //     {
+    //       model: User,
+    //       where: {
+    //         [Op.not]: {
+    //           id: req.user.id
+    //         }
+    //       }
+    //     },
+    //     {
+    //       model: Message
+    //     }
+    //   ]
+    // })
+
+
+    const creator = await User.findOne({
       where: {
-        id: chat.id
-      },
-      include: [
-        {
-          model: User,
-          where: {
-            [Op.not]: {
-              id: req.user.id
-            }
-          }
-        },
-        {
-          model: Message
-        }
-      ]
+        id: req.user.id
+      }
     })
 
-    return res.send(newChat)
+    const partner = await User.findOne({
+      where: {
+        id: partnerId
+      }
+    })
 
-  } catch (error) {
+    const forCreator = {
+      id: chat.id,
+      type: 'dual',
+      Users: [partner],
+      Messages: []
+    }
+
+    const forReceiver = {
+      id: chat.id,
+      type: 'dual',
+      Users: [creator],
+      Messages: []
+    }
+
+    return res.json([forCreator, forReceiver])
+
+  } catch (e) {
     await t.rollback()
-    return res.status(500).json({ status: 'error', message: error.message })
+    return res.status(500).json({ status: 'Error', message: e.message })
   }
 }
 
