@@ -6,7 +6,7 @@ const config = require('../config/app')
 const generateToken = (user) => {
   // delete user.password
 
-  const token = jwt.sign(user, config.appKey, { expiresIn: "60s" })
+  const token = jwt.sign(user, config.appKey, { expiresIn: "1d" })
 
   return { ...{ user }, ...{ token } }
 }
